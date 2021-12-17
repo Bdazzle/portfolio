@@ -1,0 +1,150 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}
+
+$greyish :#303134;
+$yellowish :#ba9e00;
+$rose: #b55b67;
+
+.project_links {
+  a {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: $rose;
+      transform: scaleX(0);
+      transform-origin: top left;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
+    }
+
+  }
+}
+
+.nav_link:hover {
+  background-position: right;
+  background: linear-gradient(#BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+  transition: all 1s ease-in-out;
+}
+
+.big_card {
+  border-radius: 5px;
+  filter: drop-shadow(0px 0px 10px $greyish);
+  color: whitesmoke;
+  background-color: $greyish;
+  opacity: 1;
+  width: 75vw;
+  min-height: 75vh;
+  right: 12.5vw;
+  top: 7.5vw;
+  z-Index: 999;
+  position: absolute;
+  transform: scale(1);
+  transition: opacity .5s ease-in-out, transform .5s ease-in-out;
+}
+
+.big_card_hidden {
+  opacity: 0;
+  height: 0;
+  width: 0;
+  transform: scale(0);
+}
+
+@keyframes circle {
+  0% {
+    clip-path: circle(0%);
+  }
+  100% {
+    clip-path: circle(100%);
+  }
+}
+
+@keyframes widespan {
+  0%{
+    width:0%
+  }
+  100%{
+    width: 98%
+  }
+}
+@keyframes highspan {
+  0%{
+    height:0%
+  }
+  100%{
+    height: 98%
+  }
+}
+
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 60px $rose;
+  }
+}
+
+@media screen {
+  html {
+    height: 100vh;
+    width: 100vw;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  #root {
+    height: 100%;
+    width: 100%;
+  }
+
+  .big_card {
+    border-radius: 5px;
+    filter: drop-shadow(0px 0px 10px $greyish);
+    color: whitesmoke;
+    background-color: $greyish;
+    opacity: 1;
+    width: 95%;
+    min-height: 75vh;
+    top: 7.5vw;
+    left: 2.5%;
+    z-Index: 999;
+    position: absolute;
+    transform: scale(1);
+    transition: opacity .5s ease-in-out, transform .5s ease-in-out;
+  }
+}

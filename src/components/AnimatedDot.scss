@@ -1,0 +1,13 @@
+
+
+
+
+@keyframes move {
+    0% { 
+      transform: translate3d(0, 0, 1px) rotate(0deg);  
+    }
+    100% {
+      transform: translate3d(0, 0, 1px) rotate(360deg);
+
+    }
+  }
