@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "./AnimatedDot.css"
+import styled, { keyframes } from 'styled-components';
 
 export type Coords = {
     x?: number,
@@ -7,7 +7,6 @@ export type Coords = {
 }
 
 export interface AnimatedSpan<T> {
-    mobile?: boolean
     name? : T;
     newCoords: Coords;
     defaultAnimationState?: { [key: string]: string };
@@ -18,11 +17,54 @@ export interface AnimatedSpan<T> {
     clickHandler: (clicked: boolean, name:T)=> void;
 }
 
+interface SpanCSSProps {
+    particleSize: number | string;
+    dotPos : Coords;
+    particleNumber : number ;
+    origin: Coords;
+    animationPlayState: string;
+    animationBase: number;
+    blurRadius: number;
+    color: string;
+    name: string
+}
+
 function random(input: number): number {
     return Math.round(Math.random() * input)
 }
 
-export const AnimatedDot: React.FC<AnimatedSpan<number>> = ({mobile, name, newCoords, defaultAnimationState, animationName, particleSize, colors, duration,clickHandler }) => {
+const move = keyframes`
+0% { 
+    transform: translate3d(0, 0, 1px) rotate(0deg);  
+  }
+  100% {
+    transform: translate3d(0, 0, 1px) rotate(360deg);
+  }
+`
+//animation shorthand: name, duration, timing function, delay, iteration, direction, fill mode, play state
+const DotSpan= styled.span<SpanCSSProps>`
+    width : ${props => props.particleSize};
+    height: ${props => props.particleSize};
+    border-radius: ${props => props.particleSize};
+    left: ${props => props.dotPos.x as number - props.particleNumber}px;
+    top: ${props => props.dotPos.y as number - props.particleNumber}px;
+    transform-origin : ${props => props.origin.x}vw ${props => props.origin.y}vh;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    backface-visibility: hidden;
+    filter: blur(${props => props.blurRadius});
+    color: ${props => props.color};
+    opacity: .5;
+    animation-name : ${move};
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: ${props => props.animationBase *1 +10}s;
+    animation-delay: ${props => props.animationBase * -1}s;
+    animation-play-state: ${props => props.animationPlayState};
+    box-shadow: ${props => `inset 0 0 ${props.particleNumber / 2}vmin 5px ${props.color}, 0 0 ${props.particleNumber}vmin 5px ${props.color}`}
+`
+
+export const AnimatedDot: React.FC<AnimatedSpan<number>> = ({ name, newCoords, defaultAnimationState, animationName, particleSize, colors, duration,clickHandler }) => {
     const [dotPos, setDotPos] = useState<Coords>({ x: undefined, y: undefined })
     const [animaPlay, setAnimaPlay] = useState<string>('running')
     const [animaName, setAnimaName] = useState<string>('move')
@@ -77,32 +119,21 @@ export const AnimatedDot: React.FC<AnimatedSpan<number>> = ({mobile, name, newCo
     }, [defaultAnimationState])
 
     return (
-        <span className='dot'
-            style={{
-                width: particleSize,
-                height: particleSize,
-                borderRadius: particleSize,
-                left: dotPos.x && dotPos.x as number - particleNumber,
-                top: dotPos.y && dotPos.y as number - particleNumber,
-                transformOrigin: `${originPos.x}vw ${originPos.y}vh`,
-                transform: `translate(-50%, -50%)`,
-                position:'fixed',
-                backfaceVisibility: `hidden`,
-                animationPlayState: animaPlay,
-                animationName: animaName,
-                animationTimingFunction: `linear`,
-                animationIterationCount: `infinite`,
-                animationDuration: `${animationBase as number * 1 + 10}s`,
-                animationDelay: `${animationBase as number * -1}s`,
-                filter: `blur${blurRadius}`,
-                color: color,
-                opacity: .5,
-                boxShadow: `inset 0 0 ${particleNumber / 2}vmin 5px ${color}, 0 0 ${particleNumber}vmin 5px ${color}`
-            }}
+        <DotSpan 
+            className = "dot"
             onMouseDown={() => handleMouseDown()}
             onMouseUp={() => handleMouseUp()} 
             onPointerDown={() => handleMouseDown()}
             onPointerUp={() => handleMouseUp()}
-            />
+            particleNumber={particleNumber}
+            particleSize={particleSize}
+            dotPos={dotPos}
+            origin={originPos}
+            animationPlayState = {animaPlay}
+            animationBase={animationBase as number}
+            blurRadius={blurRadius as number}
+            color={color as string}
+            name={animaName}
+        />
     )
 }

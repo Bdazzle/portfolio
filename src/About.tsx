@@ -40,7 +40,7 @@ export const About: React.FC = () => {
                 <li>GraphQL</li>
                 <li>Social Engineering</li>
                 <li>Next.js, MaterialUI</li>
-                <li>Tailwind, styled components</li>
+                <li>Tailwind</li>
                 <li>Formal CS training</li>
             </ul> */}
            

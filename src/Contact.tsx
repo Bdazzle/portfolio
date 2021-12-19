@@ -3,6 +3,7 @@ import { useMatch } from "react-location";
 import { PortfolioContext } from './PortfolioContext';
 import emailjs from 'emailjs-com'
 import ReCAPTCHA from 'react-google-recaptcha'
+import styled, { keyframes } from "styled-components";
 
 const emailjs_user_ID = process.env.REACT_APP_EMAIL_JS_USER_ID as string
 const emailjs_service_ID = process.env.REACT_APP_EMAIL_JS_SERVICE_ID as string
@@ -58,22 +59,7 @@ const inactiveInputSpan: CSSProperties = {
     transition: `transform 0.3s ease`
 }
 
-const activeBorderStyle: CSSProperties = {
-    backgroundColor: rose,
-    position: 'absolute',
-}
 
-const activeHeightBorder: CSSProperties = {
-    ...activeBorderStyle,
-    width: '2px',
-    height: '96%',
-}
-
-const activeWidthBorder: CSSProperties = {
-    ...activeBorderStyle,
-    width: '96%',
-    height: '2px',
-}
 
 interface FormData {
     "Name": string,
@@ -88,29 +74,115 @@ interface Modal {
     text: string
 }
 
+interface ModalSpan {
+    mobileMargin: string
+}
+
+const highspan = keyframes`
+    0%{
+        height:0%
+    }
+    100%{
+        height: 98%
+    }
+    `
+const widespan = keyframes`
+    0%{
+        width:0%
+    }
+    100%{
+        width: 98%
+    }
+    `
+const fillanimation = keyframes`
+    100% {
+        box-shadow: inset 0px 0px 0px 60px ${rose};
+      }
+    `
+const strokeanimation = keyframes`
+    100% {
+        stroke-dashoffset: 0;
+      }
+    `
+const scaleanimation = keyframes`
+    0%, 100% {
+        transform: none;
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+`
+
+const LeftSpan = styled.span`
+    background-color: ${rose};
+    position: absolute;
+    height: 96%;
+    width: 2px;
+    left: 2%;
+    top: 2%;
+    animation: ${highspan} .5s ease-in-out;
+`
+
+const TopSpan = styled.span<ModalSpan>`
+    background-color: ${rose};
+    position: absolute;
+    width: 96%;
+    height: 2px;
+    left: 2%;
+    top: ${props => props.mobileMargin};
+    animation: ${widespan} .5s ease-in-out;
+`
+
+const RightSpan = styled.span`
+    background-color: ${rose};
+    position: absolute;
+    width: 2px;
+    height: 96%;
+    top: 2%;
+    right 2%;
+    animation: ${highspan} .5 ease-in-out
+`
+
+const BottomSpan = styled.span`
+    background-color: ${rose};
+    position: absolute;
+    width: 96%;
+    height: 2px;
+    left: 2%;
+    bottom: 2%;
+    animation: ${widespan} .5s ease-in-out;
+`
+const CheckmarkSVG = styled.svg`
+    border-radius : 50%;
+    stroke-width: 2;
+    stroke: #fff;
+    margin: 10% auto;
+    box-shadow: inset 0px 0px 0px ${rose};
+    animation: ${fillanimation} .4s ease-in-out .4s forwards, ${scaleanimation} .3s ease-in-out .9s both;
+`
+const CheckmarkCircle = styled.circle`
+    stroke-width: 2px;
+    stroke-miter-limit: 10px;
+    fill: none;
+    animation: ${strokeanimation} 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+`
+const CheckmarkCheck = styled.path`
+    transform-origin: 50% 50%;
+    stroke-dasharray: 96;
+    stroke-dashoffset: 96;
+    animation : ${strokeanimation} 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+`
 const SentModal: React.FC<Modal> = ({ containerStyle, textStyle, text }) => {
     const { isMobile } = useContext(PortfolioContext)
 
-
     return (
         <div className="modal_container" style={containerStyle}>
-            <span id='modal_left' style={{
-                ...activeHeightBorder,
-                left: '2%',
-                top: '2%',
-                animation: `highspan .5s ease-in-out`
-            }}></span>
-            <span id={`modal_top`} style={
-                {
-                    ...activeWidthBorder,
-                    left: '2%',
-                    marginTop: isMobile ? '2%' : '.6%',
-                    animation: `widespan .5s ease-in-out`
-                }
-            }></span>
-
+            <LeftSpan id="modal_left" />
+            <TopSpan id="modal_top"
+                mobileMargin={!isMobile ? '2%' : '1%'}
+            />
             <div style={textStyle}>{text}</div>
-            
+
             <span style={{
                 display: "flex"
             }}>
@@ -137,52 +209,20 @@ const SentModal: React.FC<Modal> = ({ containerStyle, textStyle, text }) => {
                         <polygon points="0,30.05 2.68,33.04 35.48,33.04 35.48,30.05 " />
                     </svg>
                 }
-                <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 104"
+                <CheckmarkSVG className="checkmark__circle"
+                    cx="52" cy="52" r="50" fill="none"
                     width="112" height="112"
-                    style={{
-                        borderRadius: `50%`,
-                        strokeWidth: 2,
-                        stroke: `#fff`,
-                        margin: `10% auto`,
-                        boxShadow: `inset 0px 0px 0px ${rose}`,
-                        animation: `fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both`,
-                    }}>
-                    <circle className="checkmark__circle" cx="52" cy="52" r="50" fill="none"
-                        style={{
-                            strokeWidth: 2,
-                            strokeMiterlimit: 10,
-                            fill: "none",
-                            animation: `stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards`,
-                        }}
-                    />
+                >
+                    <CheckmarkCircle className="checkmark__circle" cx="56" cy="56"
+                        r="52" fill="none" />
                     <svg viewBox="0 0 54 54"
                         width="112" height="112">
-                        <path className="checkmark__check" fill="none" d="M14.1 27.2 l7.1 7.2 16.7-16.8"
-                            style={{
-                                transformOrigin: `50% 50%`,
-                                strokeDasharray: 96,
-                                strokeDashoffset: 96,
-                                animation: `stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards`,
-                            }} />
+                        <CheckmarkCheck className="checkmark__check" fill="none" d="M14.1 27.2 l7.1 7.2 16.7-16.8" />
                     </svg>
-                </svg>
+                </CheckmarkSVG>
             </span>
-            <span id={`modal_right`} style={
-                {
-                    ...activeHeightBorder,
-                    top: '2%',
-                    right: '2%',
-                    animation: `highspan .5s ease-in-out`
-                }
-            }></span>
-            <span id={`modal_bottom`} style={
-                {
-                    ...activeWidthBorder,
-                    left: '2%',
-                    bottom: '2%',
-                    animation: `widespan .5s ease-in-out`
-                }
-            }></span>
+            <RightSpan id="modal_right" />
+            <BottomSpan id="modal_bottom" />
         </div >
     )
 }
@@ -199,7 +239,7 @@ export const Contact: React.FC = () => {
     const [showModal, setShowModal] = useState<boolean>()
     const formRef = useRef<HTMLFormElement>(null)
     const capRef = useRef<ReCAPTCHA>(null)
-    const backgroundRef= useRef<HTMLDivElement>(null)
+    const backgroundRef = useRef<HTMLDivElement>(null)
     const { setCurrentPathname, isMobile, currentTheme } = useContext(PortfolioContext)
     const pathName = useMatch()
 
@@ -218,7 +258,7 @@ export const Contact: React.FC = () => {
         setRecaptchaToken(undefined)
         setShowModal(true)
         console.info('sent')
-        backgroundRef.current?.addEventListener('click', ()=>{
+        backgroundRef.current?.addEventListener('click', () => {
             setShowModal(false)
         })
     }
@@ -228,17 +268,18 @@ export const Contact: React.FC = () => {
     }
 
     return (
-        <div id="contact_background" 
-        ref = {backgroundRef}
-        style={{
-            height:'100%',
-            width:'100%',
-            
-        }}>
+        <div id="contact_background"
+            ref={backgroundRef}
+            style={{
+                height: '100%',
+                width: '100%',
+            }}>
             {
                 showModal &&
                 <SentModal
                     containerStyle={{
+                        minHeight: 220,
+                        minWidth: isMobile ? '50vw' : 400,
                         width: '50vw',
                         height: isMobile ? '40vh' : '25vh',
                         backgroundColor: currentTheme.color,
@@ -250,7 +291,7 @@ export const Contact: React.FC = () => {
                         marginTop: '15vh',
                     }}
                     textStyle={{
-                        marginTop:10,
+                        marginTop: 10,
                         textAlign: "center",
                         lineHeight: 1.5,
                         fontFamily: "'Oxygen', sans-serif",
@@ -371,7 +412,7 @@ export const Contact: React.FC = () => {
                         <div id="captcha_container"
                             style={{
                                 marginTop: 10,
-                                zIndex:3
+                                zIndex: 3
                             }}
                         >
                             <ReCAPTCHA

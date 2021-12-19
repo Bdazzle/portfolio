@@ -8,6 +8,7 @@ import jQuery_logo from './assets/jQuery-Logo.png'
 import helm from './assets/admin_helm.png'
 import { PortfolioContext } from './PortfolioContext';
 import { useMatch } from "react-location";
+import styled, { keyframes } from "styled-components";
 
 /*
 declaration for mp4 module added to react-app-env.d.ts
@@ -35,7 +36,7 @@ interface BlurbCard extends Partial<CardData> {
 
 interface MainCard extends Partial<CardData> {
     handleVis: () => void;
-    constainerStyle?: CSSProperties
+    constainerStyle?: CSSProperties;
 }
 
 interface MediaCardProps extends Partial<CardData> {
@@ -84,22 +85,50 @@ const bigCardContainer: CSSProperties = {
     overflowY: 'scroll'
 }
 
+const biganimation = keyframes`
+    0%{
+        transform: scale(0)
+    }
+    100%{
+        transform: scale(1)
+    }
+`
+
+interface BigBlurbProps {
+    isMobile: boolean;
+}
+
+const BigBlurb = styled.div<BigBlurbProps>`
+  border-radius: 5px;
+  filter: drop-shadow(0px 0px 10px ${cardbackColor}});
+  color: whitesmoke;
+  background-color: ${cardbackColor};
+  opacity: 1;
+  width: ${props => props.isMobile ? `95%` : `75vw`};
+  min-height: 75vh;
+  right: ${props => props.isMobile ? `2.5%` : `12.5vw`};
+  top: 7.5vw;
+  z-Index: 999;
+  position: absolute;
+  animation: ${biganimation} .5s ease-in-out;
+`
+
+
+
+
 const BigCard: React.FC<MainCard> = ({ source, handleVis, indepth, constainerStyle, techLogos, title }) => {
     const { isMobile } = useContext(PortfolioContext)
 
     const handleHide = () => {
         handleVis()
-        document.querySelector('#big_blurb')?.classList.remove('big_card')
-        document.querySelector('#big_blurb')?.classList.add('big_card_hidden')
     }
 
     return (
         <div id="big_card_container"
             style={constainerStyle}
         >
-            <div id="big_blurb"
-                className="big_card_hidden"
-            >
+            <BigBlurb isMobile = {isMobile} >
+
                 <div style={{
                     textAlign: 'center',
                     lineHeight: 1.5,
@@ -196,23 +225,22 @@ const BigCard: React.FC<MainCard> = ({ source, handleVis, indepth, constainerSty
                             </li>
                         )
                     }
-                    
+
                 </ul>
                 {isMobile &&
                     <MediaCard
-                    title={title} 
-                    source={source} 
-                    style={mobileMediaCard} />
+                        title={title}
+                        source={source}
+                        style={mobileMediaCard} />
                 }
-            </div>
+                </BigBlurb>
+
         </div >
 
     )
 }
 
 const ProjectCard: React.FC<BlurbCard> = ({ style, blurb, borderStyle, className, techLogos, title }) => {
-
-
     return (
         <div id={`${title}blurb_border`}
             className="blub_border"
@@ -268,7 +296,7 @@ const ProjectCard: React.FC<BlurbCard> = ({ style, blurb, borderStyle, className
                     width: '220px',
                     height: '160px',
                 }}>
-                    { techLogos &&
+                    {techLogos &&
                         Object.entries(techLogos as object).map((logo: [string, string], i: number) =>
                             <li key={`logo${i}li`}
                                 style={{
@@ -337,7 +365,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ source, style, title }) => {
                 :
                 source?.match(/\.png$/) ?
                     <img
-                    alt={`${title} preview`}
+                        alt={`${title} preview`}
                         src={source}
                         style={{
                             ...style,
@@ -349,7 +377,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ source, style, title }) => {
                     ></img>
                     :
                     <iframe src={source}
-                    title={`${title} preview`}
+                        title={`${title} preview`}
                         style={{
                             ...style,
                             width: isMobile ? '95%' : `40vw`,
@@ -439,7 +467,7 @@ const blurbInactiveStyle: CSSProperties = {
 
 const projectTitle = (textColor: string, mobile: boolean): CSSProperties => {
     return {
-        marginTop:10,
+        marginTop: 10,
         minHeight: 55,
         maxHeight: 110,
         fontSize: mobile === true ? 24 : 32,
@@ -452,7 +480,7 @@ const projectTitle = (textColor: string, mobile: boolean): CSSProperties => {
 
 const hoveredProjectTitle = (textColor: string, mobile: boolean): CSSProperties => {
     return {
-        marginTop:10,
+        marginTop: 10,
         textShadow: `1px 1px 1px ${textColor}`,
         minHeight: 55,
         fontSize: mobile === true ? 28 : 36,
@@ -460,6 +488,7 @@ const hoveredProjectTitle = (textColor: string, mobile: boolean): CSSProperties 
         fontFamily: 'Roboto',
         color: textColor,
         transition: `font-size .5s ease-in-out`,
+        cursor: 'pointer'
     }
 }
 
@@ -469,18 +498,44 @@ const linkContainerStyle: CSSProperties = {
     alignItems: 'center',
 }
 
-const linkStyle = (timing: string): CSSProperties => {
-    return {
-        marginBottom: 0,
-        transition: `margin-bottom ${timing} ease-in-out, opacity ${timing} ease-in-out, visibility ${timing} ease-in-out`,
-        width: 'max-content',
-        fontWeight: 'bold',
-        fontFamily: 'Roboto',
-        // paddingTop: 10,
-        color: '#b55b67',
-        fontSize: 20
-    }
+interface ProjectAnchorProps {
+    opacity: number;
+    visibility: string;
+    timing: string;
 }
+const ProjectAnchor = styled.a<ProjectAnchorProps>`
+    & {
+    position: relative;
+    margin-bottom: 0;
+    width: max-content;
+    font-weight: bold;
+    font-family: Roboto;
+    color: #b55b67;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 20px;
+    opacity: ${(props) => props.opacity};
+    visibility: ${(props) => props.visibility};
+    transition: ${(props) => `margin-bottom ${props.timing} ease-in-out, opacity ${props.timing} ease-in-out, visibility ${props.timing} ease-in-out`}
+    }   
+    &::after {
+              content: "";
+              position: absolute;
+              display: block;
+              width: 100%;
+              height: 2px;
+              bottom: 0;
+              left: 0;
+              background-color: #b55b67;
+              transform: scaleX(0);
+              transform-origin: top left;
+              transition: transform 0.3s ease;
+            }
+        
+            &:hover::after {
+              transform: scaleX(1);
+            }
+    `
 
 function cardReducer(state: object, action: string): CardData {
     switch (action) {
@@ -613,31 +668,25 @@ export const Projects: React.FC = () => {
     }, [])
 
     const handleMouseOver = (source: React.MouseEvent | React.TouchEvent): void => {
-        dispatchCard((source.target as HTMLElement).className)
-        setFocusedProject((source.target as HTMLElement).className)
+        const identifier = (source.target as HTMLElement).className.split(' ').pop() as string
+        dispatchCard(identifier)
+        setFocusedProject(identifier)
     }
 
     const handleClickedCard = (source: React.MouseEvent | React.TouchEvent): void => {
-        dispatchCard((source.target as HTMLElement).className)
-        setClickedProject((source.target as HTMLElement).className)
-        console.info((source.target as HTMLElement).className)
+        const identifier = (source.target as HTMLElement).className.split(' ').pop() as string
+        dispatchCard(identifier)
+        setClickedProject(identifier)
     }
 
     const handleCardClose = (): void => {
         setClickedProject(undefined)
     }
 
-    useEffect(() => {
-        document.querySelector('#big_blurb')?.classList.remove('big_card_hidden');
-        document.querySelector('#big_blurb')?.classList.add('big_card');
-    }, [clickedProject])
-
-    // console.info(focusedProject)
     return (
         <>
             {
                 clickedProject && <BigCard
-                    key={`bigblurb_${clickedProject}`}
                     title={currentCard.title}
                     indepth={currentCard.indepth}
                     techLogos={currentCard.techLogos}
@@ -653,11 +702,10 @@ export const Projects: React.FC = () => {
                     flexDirection: isMobile ? 'column' : 'row',
                     justifyContent: isMobile ? 'center' : 'space-evenly',
                     lineHeight: 1.5,
-                    width: isMobile ? '80vw' : '100vw',
                 }}>
                 {!isMobile &&
                     <div className="blurb_container"
-                    
+
                         style={{
                             width: '25vw',
                             height: '50vh',
@@ -690,11 +738,12 @@ export const Projects: React.FC = () => {
                     <div style={{
                         fontSize: 36,
                         fontFamily: `'Mandalore', sans-serif`,
-                        letterSpacing:'.2rem',
-                        fontWeight:'bold',
+                        letterSpacing: '.2rem',
+                        fontWeight: 'bold',
                     }}>Projects</div>
 
                     <div
+                        id="mc"
                         className="mc"
                         onMouseOver={(e) => handleMouseOver(e)}
                         onTouchMove={(e) => handleMouseOver(e)}
@@ -702,7 +751,7 @@ export const Projects: React.FC = () => {
                         <div className='mc'
                             style={focusedProject === 'mc' ? hoveredProjectTitle(currentTheme.color, isMobile) : projectTitle(currentTheme.color, isMobile)}
                             onClick={(e) => handleClickedCard(e)}
-                            onTouchStart={(e) => handleClickedCard(e) }
+                            onTouchStart={(e) => handleClickedCard(e)}
                             onMouseOver={(e) => handleMouseOver(e)}
                             onTouchMove={(e) => handleMouseOver(e)}
                         >michaelcthulhu.com</div>
@@ -710,14 +759,12 @@ export const Projects: React.FC = () => {
                         <div className="link_container"
                             style={linkContainerStyle}
                         >
-                            <a className="mc" target="_blank" rel="noreferrer"
+                            <ProjectAnchor className="mc" target="_blank" rel="noreferrer"
                                 href="http://michaelcthulhu.com/"
-                                style={{
-                                    ...linkStyle('.5s'),
-                                    opacity: focusedProject === 'mc' ? 1 : 0,
-                                    visibility: focusedProject === 'mc' ? 'visible' : 'hidden',
-                                }}
-                            >michaelcthulhu.com</a>
+                                opacity={focusedProject === 'mc' ? 1 : 0}
+                                visibility={focusedProject === 'mc' ? 'visible' : 'hidden'}
+                                timing=".5s"
+                            >michaelcthulhu.com</ProjectAnchor>
                         </div>
 
                     </div>
@@ -736,24 +783,22 @@ export const Projects: React.FC = () => {
                         <div className="link_container"
                             style={linkContainerStyle}
                         >
-                            <a className='ffbesync' target="_blank" rel="noreferrer"
+                            <ProjectAnchor
+                                className='ffbesync' target="_blank" rel="noreferrer"
                                 href="https://github.com/Bdazzle/ffbeDataExporterMobile"
-                                style={{
-                                    ...linkStyle('.5s'),
-                                    opacity: focusedProject === 'ffbesync' ? 1 : 0,
-                                    visibility: focusedProject === 'ffbesync' ? 'visible' : 'hidden',
-                                }}
-                            >FFBE-Sync Mobile Repo</a>
-                            <a className='ffbesync' target="_blank" rel="noreferrer"
+                                opacity={focusedProject === 'ffbesync' ? 1 : 0}
+                                visibility={focusedProject === 'ffbesync' ? 'visible' : 'hidden'}
+                                timing=".5s"
+                            >FFBE-Sync Mobile Repo</ProjectAnchor>
+                            <ProjectAnchor
+                                className='ffbesync' target="_blank" rel="noreferrer"
                                 href="https://github.com/Bdazzle/ffbeDataExporterMobile/releases/tag/1"
-                                style={{
-                                    ...linkStyle('1s'),
-                                    opacity: focusedProject === 'ffbesync' ? 1 : 0,
-                                    visibility: focusedProject === 'ffbesync' ? 'visible' : 'hidden',
-                                }}
-                            >FFBE-Sync Mobile apk release</a>
+                                opacity={focusedProject === 'ffbesync' ? 1 : 0}
+                                visibility={focusedProject === 'ffbesync' ? 'visible' : 'hidden'}
+                                timing="1s"
+                            >FFBE-Sync Mobile apk release</ProjectAnchor>
                         </div>
-                   
+
                     </div>
                     <div
                         className='mtg'
@@ -769,24 +814,18 @@ export const Projects: React.FC = () => {
                         <div className="link_container"
                             style={linkContainerStyle}
                         >
-                            <a className='mtg' target="_blank" rel="noreferrer"
+                            <ProjectAnchor className='mtg' target="_blank" rel="noreferrer"
                                 href="https://github.com/Bdazzle/mtgsearchapp-react-native"
-                                style={{
-                                    ...linkStyle('.5s'),
-                                    opacity: focusedProject === 'mtg' ? 1 : 0,
-                                    visibility: focusedProject === 'mtg' ? 'visible' : 'hidden',
-                                }}
-                            >MTG Collector Mobile Repo</a>
-                            <a className='mtg' target="_blank" rel="noreferrer"
+                                opacity={focusedProject === 'mtg' ? 1 : 0}
+                                visibility={focusedProject === 'mtg' ? 'visible' : 'hidden'}
+                                timing=".5s"
+                            >MTG Collector Mobile Repo</ProjectAnchor>
+                            <ProjectAnchor className='mtg' target="_blank" rel="noreferrer"
                                 href="https://snack.expo.dev/@beedazzle/github.com-bdazzle-mtgsearchapp-react-native"
-                                style={{
-                                    ...linkStyle('1s'),
-                                    opacity: focusedProject === 'mtg' ? 1 : 0,
-                                    visibility: focusedProject === 'mtg' ? 'visible' : 'hidden',
-                                }}
-                            >
-                                Snack (without AWS)
-                            </a>
+                                opacity={focusedProject === 'mtg' ? 1 : 0}
+                                visibility={focusedProject === 'mtg' ? 'visible' : 'hidden'}
+                                timing="1s"
+                            >Snack (without AWS)</ProjectAnchor>
                         </div>
                     </div>
                     <div
@@ -803,22 +842,20 @@ export const Projects: React.FC = () => {
                         <div className="link_container"
                             style={linkContainerStyle}
                         >
-                            <a className='rpgsheet' target="_blank" rel="noreferrer"
+                            <ProjectAnchor
+                                className='rpgsheet' target="_blank" rel="noreferrer"
                                 href="https://rpgsheetgenerator.web.app/"
-                                style={{
-                                    ...linkStyle('.5s'),
-                                    opacity: focusedProject === 'rpgsheet' ? 1 : 0,
-                                    visibility: focusedProject === 'rpgsheet' ? 'visible' : 'hidden',
-                                }}
-                            >Working App</a>
-                            <a className='rpgsheet' target="_blank" rel="noreferrer"
+                                opacity={focusedProject === 'rpgsheet' ? 1 : 0}
+                                visibility={focusedProject === 'rpgsheet' ? 'visible' : 'hidden'}
+                                timing=".5s"
+                            >Working App</ProjectAnchor>
+                            <ProjectAnchor
+                                className='rpgsheet' target="_blank" rel="noreferrer"
                                 href="https://github.com/Bdazzle/RPG_sheet_generator"
-                                style={{
-                                    ...linkStyle('1s'),
-                                    opacity: focusedProject === 'rpgsheet' ? 1 : 0,
-                                    visibility: focusedProject === 'rpgsheet' ? 'visible' : 'hidden',
-                                }}
-                            >RPG Sheet editor repo</a>
+                                opacity={focusedProject === 'rpgsheet' ? 1 : 0}
+                                visibility={focusedProject === 'rpgsheet' ? 'visible' : 'hidden'}
+                                timing="1s"
+                            >RPG Sheet editor repo</ProjectAnchor>
                         </div>
                     </div>
                 </div>
