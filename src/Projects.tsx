@@ -43,7 +43,7 @@ interface MediaCardProps extends Partial<CardData> {
     style: CSSProperties
 }
 
-const assets = ['http://michaelcthulhu.com/', rpgsheet, ffbesyncvid, mtgvid]
+const assets = ['https://michaelcthulhu.com/', rpgsheet, ffbesyncvid, mtgvid]
 
 const cardbackColor = '#303134';
 const yellowish = '#ba9e00';
@@ -127,7 +127,7 @@ const BigCard: React.FC<MainCard> = ({ source, handleVis, indepth, constainerSty
         <div id="big_card_container"
             style={constainerStyle}
         >
-            <BigBlurb isMobile = {isMobile} >
+            <BigBlurb isMobile={isMobile} >
 
                 <div style={{
                     textAlign: 'center',
@@ -233,7 +233,7 @@ const BigCard: React.FC<MainCard> = ({ source, handleVis, indepth, constainerSty
                         source={source}
                         style={mobileMediaCard} />
                 }
-                </BigBlurb>
+            </BigBlurb>
 
         </div >
 
@@ -541,7 +541,7 @@ function cardReducer(state: object, action: string): CardData {
     switch (action) {
         case 'mc':
             return {
-                source: 'http://michaelcthulhu.com/',
+                source: 'https://michaelcthulhu.com/',
                 blurb: `First commissioned website. 
                 Made for welder/content creator Michaelcthulhu who just wanted a website where his eyes followed you.`,
                 title: `michaelcthulhu.com`,
@@ -741,93 +741,6 @@ export const Projects: React.FC = () => {
                         letterSpacing: '.2rem',
                         fontWeight: 'bold',
                     }}>Projects</div>
-
-                    <div
-                        id="mc"
-                        className="mc"
-                        onMouseOver={(e) => handleMouseOver(e)}
-                        onTouchMove={(e) => handleMouseOver(e)}
-                    >
-                        <div className='mc'
-                            style={focusedProject === 'mc' ? hoveredProjectTitle(currentTheme.color, isMobile) : projectTitle(currentTheme.color, isMobile)}
-                            onClick={(e) => handleClickedCard(e)}
-                            onTouchStart={(e) => handleClickedCard(e)}
-                            onMouseOver={(e) => handleMouseOver(e)}
-                            onTouchMove={(e) => handleMouseOver(e)}
-                        >michaelcthulhu.com</div>
-
-                        <div className="link_container"
-                            style={linkContainerStyle}
-                        >
-                            <ProjectAnchor className="mc" target="_blank" rel="noreferrer"
-                                href="http://michaelcthulhu.com/"
-                                opacity={focusedProject === 'mc' ? 1 : 0}
-                                visibility={focusedProject === 'mc' ? 'visible' : 'hidden'}
-                                timing=".5s"
-                            >michaelcthulhu.com</ProjectAnchor>
-                        </div>
-
-                    </div>
-                    <div
-                        className='ffbesync'
-                        onMouseOver={(e) => handleMouseOver(e)}
-                        onTouchMove={(e) => handleMouseOver(e)}
-                    >
-                        <div className='ffbesync'
-                            style={focusedProject === 'ffbesync' ? hoveredProjectTitle(currentTheme.color, isMobile) : projectTitle(currentTheme.color, isMobile)}
-                            onClick={(e) => handleClickedCard(e)}
-                            onMouseOver={(e) => handleMouseOver(e)}
-                            onTouchMove={(e) => handleMouseOver(e)}
-                        >FFBE-Sync Mobile</div>
-
-                        <div className="link_container"
-                            style={linkContainerStyle}
-                        >
-                            <ProjectAnchor
-                                className='ffbesync' target="_blank" rel="noreferrer"
-                                href="https://github.com/Bdazzle/ffbeDataExporterMobile"
-                                opacity={focusedProject === 'ffbesync' ? 1 : 0}
-                                visibility={focusedProject === 'ffbesync' ? 'visible' : 'hidden'}
-                                timing=".5s"
-                            >FFBE-Sync Mobile Repo</ProjectAnchor>
-                            <ProjectAnchor
-                                className='ffbesync' target="_blank" rel="noreferrer"
-                                href="https://github.com/Bdazzle/ffbeDataExporterMobile/releases/tag/1"
-                                opacity={focusedProject === 'ffbesync' ? 1 : 0}
-                                visibility={focusedProject === 'ffbesync' ? 'visible' : 'hidden'}
-                                timing="1s"
-                            >FFBE-Sync Mobile apk release</ProjectAnchor>
-                        </div>
-
-                    </div>
-                    <div
-                        className='mtg'
-                        onMouseOver={(e) => handleMouseOver(e)}
-                        onTouchMove={(e) => handleMouseOver(e)}
-                    >
-                        <div className='mtg'
-                            style={focusedProject === 'mtg' ? hoveredProjectTitle(currentTheme.color, isMobile) : projectTitle(currentTheme.color, isMobile)}
-                            onClick={(e) => handleClickedCard(e)}
-                            onMouseOver={(e) => handleMouseOver(e)}
-                            onTouchMove={(e) => handleMouseOver(e)}
-                        >MTG Collector</div>
-                        <div className="link_container"
-                            style={linkContainerStyle}
-                        >
-                            <ProjectAnchor className='mtg' target="_blank" rel="noreferrer"
-                                href="https://github.com/Bdazzle/mtgsearchapp-react-native"
-                                opacity={focusedProject === 'mtg' ? 1 : 0}
-                                visibility={focusedProject === 'mtg' ? 'visible' : 'hidden'}
-                                timing=".5s"
-                            >MTG Collector Mobile Repo</ProjectAnchor>
-                            <ProjectAnchor className='mtg' target="_blank" rel="noreferrer"
-                                href="https://snack.expo.dev/@beedazzle/github.com-bdazzle-mtgsearchapp-react-native"
-                                opacity={focusedProject === 'mtg' ? 1 : 0}
-                                visibility={focusedProject === 'mtg' ? 'visible' : 'hidden'}
-                                timing="1s"
-                            >Snack (without AWS)</ProjectAnchor>
-                        </div>
-                    </div>
                     <div
                         className='rpgsheet'
                         onMouseOver={(e) => handleMouseOver(e)}
@@ -858,6 +771,91 @@ export const Projects: React.FC = () => {
                             >RPG Sheet editor repo</ProjectAnchor>
                         </div>
                     </div>
+                    <div
+                        className='mtg'
+                        onMouseOver={(e) => handleMouseOver(e)}
+                        onTouchMove={(e) => handleMouseOver(e)}
+                    >
+                        <div className='mtg'
+                            style={focusedProject === 'mtg' ? hoveredProjectTitle(currentTheme.color, isMobile) : projectTitle(currentTheme.color, isMobile)}
+                            onClick={(e) => handleClickedCard(e)}
+                            onMouseOver={(e) => handleMouseOver(e)}
+                            onTouchMove={(e) => handleMouseOver(e)}
+                        >MTG Collector</div>
+                        <div className="link_container"
+                            style={linkContainerStyle}
+                        >
+                            <ProjectAnchor className='mtg' target="_blank" rel="noreferrer"
+                                href="https://github.com/Bdazzle/mtgsearchapp-react-native"
+                                opacity={focusedProject === 'mtg' ? 1 : 0}
+                                visibility={focusedProject === 'mtg' ? 'visible' : 'hidden'}
+                                timing=".5s"
+                            >MTG Collector Mobile Repo</ProjectAnchor>
+                            <ProjectAnchor className='mtg' target="_blank" rel="noreferrer"
+                                href="https://snack.expo.dev/@beedazzle/github.com-bdazzle-mtgsearchapp-react-native"
+                                opacity={focusedProject === 'mtg' ? 1 : 0}
+                                visibility={focusedProject === 'mtg' ? 'visible' : 'hidden'}
+                                timing="1s"
+                            >Snack (without AWS)</ProjectAnchor>
+                        </div>
+                    </div>
+                    <div
+                        className='ffbesync'
+                        onMouseOver={(e) => handleMouseOver(e)}
+                        onTouchMove={(e) => handleMouseOver(e)}
+                    >
+                        <div className='ffbesync'
+                            style={focusedProject === 'ffbesync' ? hoveredProjectTitle(currentTheme.color, isMobile) : projectTitle(currentTheme.color, isMobile)}
+                            onClick={(e) => handleClickedCard(e)}
+                            onMouseOver={(e) => handleMouseOver(e)}
+                            onTouchMove={(e) => handleMouseOver(e)}
+                        >FFBE-Sync Mobile</div>
+                        <div className="link_container"
+                            style={linkContainerStyle}
+                        >
+                            <ProjectAnchor
+                                className='ffbesync' target="_blank" rel="noreferrer"
+                                href="https://github.com/Bdazzle/ffbeDataExporterMobile"
+                                opacity={focusedProject === 'ffbesync' ? 1 : 0}
+                                visibility={focusedProject === 'ffbesync' ? 'visible' : 'hidden'}
+                                timing=".5s"
+                            >FFBE-Sync Mobile Repo</ProjectAnchor>
+                            <ProjectAnchor
+                                className='ffbesync' target="_blank" rel="noreferrer"
+                                href="https://github.com/Bdazzle/ffbeDataExporterMobile/releases/tag/1"
+                                opacity={focusedProject === 'ffbesync' ? 1 : 0}
+                                visibility={focusedProject === 'ffbesync' ? 'visible' : 'hidden'}
+                                timing="1s"
+                            >FFBE-Sync Mobile apk release</ProjectAnchor>
+                        </div>
+                    </div>
+                    <div
+                        id="mc"
+                        className="mc"
+                        onMouseOver={(e) => handleMouseOver(e)}
+                        onTouchMove={(e) => handleMouseOver(e)}
+                    >
+                        <div className='mc'
+                            style={focusedProject === 'mc' ? hoveredProjectTitle(currentTheme.color, isMobile) : projectTitle(currentTheme.color, isMobile)}
+                            onClick={(e) => handleClickedCard(e)}
+                            onTouchStart={(e) => handleClickedCard(e)}
+                            onMouseOver={(e) => handleMouseOver(e)}
+                            onTouchMove={(e) => handleMouseOver(e)}
+                        >michaelcthulhu.com</div>
+
+                        <div className="link_container"
+                            style={linkContainerStyle}
+                        >
+                            <ProjectAnchor className="mc" target="_blank" rel="noreferrer"
+                                href="https://michaelcthulhu.com/"
+                                opacity={focusedProject === 'mc' ? 1 : 0}
+                                visibility={focusedProject === 'mc' ? 'visible' : 'hidden'}
+                                timing=".5s"
+                            >michaelcthulhu.com</ProjectAnchor>
+                        </div>
+
+                    </div>
+
                 </div>
                 {!isMobile &&
                     <div className="preview_container"

@@ -9,7 +9,7 @@ import { AnimatedDot, Coords } from './components/AnimatedDot';
 import { IconedButton } from './components/IconedButton';
 import { PortfolioContext } from './PortfolioContext';
 import dotenv from 'dotenv'
-import { useDebouncedCallback } from 'use-debounce/lib';
+import { useDebounce, useDebouncedCallback } from 'use-debounce/lib';
 import styled, { createGlobalStyle, keyframes } from 'styled-components'
 import backgroundimg from './assets/background.png'
 
@@ -93,7 +93,8 @@ const BurgerMenu: React.FC<Burger> = ({ barstyle, containerstyle, onClick, defau
         ...barstyle,
         transition: 'all .5s ease-in-out',
         transform: `rotate(-45deg) translate(40%)`,
-      } : barstyle}></div>
+      } : barstyle
+      }></div>
     </div>
   )
 }
@@ -293,6 +294,7 @@ export const Portfolio: React.FC = () => {
     document.body.style.setProperty("color", currentTheme.color);
   }, [currentTheme])
 
+  //add debouncing here?
   const handleMouseOver = (e: React.MouseEvent | React.TouchEvent, eventType: string): void => {
     if (bubbleClicked[0] === true) {
       if (eventType === 'mouse') {
@@ -304,6 +306,7 @@ export const Portfolio: React.FC = () => {
         setMouseCoords({ x: clientX, y: clientY })
       }
     }
+    
   }
 
   const handleMouseUp = (): void => {
@@ -317,6 +320,7 @@ export const Portfolio: React.FC = () => {
 
   const handleResize = useDebouncedCallback(() => setIsMobile(window.innerWidth as number <= 640), 200)
   const handleSizeChange = useDebouncedCallback((val: number) => setpSize(val), 200)
+  const debouncedMouseOver = useDebouncedCallback((e: React.MouseEvent | React.TouchEvent, eventType: string) => handleMouseOver(e, eventType), 10)
 
   useEffect(() => {
     setIsMobile(window.innerWidth as number <= 640)
@@ -338,8 +342,8 @@ export const Portfolio: React.FC = () => {
         }}
       >
         <NestedBackground className="nested_background"
-          onMouseMove={(e) => handleMouseOver(e, 'mouse')}
-          onTouchMove={(e) => handleMouseOver(e, 'touch')}
+          onMouseMove={(e) => debouncedMouseOver(e, 'mouse')}
+          onTouchMove={(e) => debouncedMouseOver(e, 'touch')}
           onMouseUp={() => handleMouseUp()}
           onPointerUp={() => handleMouseUp()}
           backgroundColor={currentTheme.backgroundColor}
