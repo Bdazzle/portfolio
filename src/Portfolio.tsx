@@ -263,11 +263,12 @@ const NestedBackground = styled.div<NestedBackgroundProps>`
   animation-timing-function: linear;
   animation-duration: 600ms;
 `
-
+// overflow: hidden;
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     height: 100%;
     width: 100%;
   }
@@ -552,7 +553,7 @@ export const Portfolio: React.FC = () => {
                 transition: 'margin-left .5s ease-in-out , opacity .5s ease-in-out ',
                 backgroundColor: rose,
                 borderRadius: '5px 0px 0px 5px',
-                height: isMobile ? '35vh' : '25vh',
+                height:240,
                 marginLeft: showControls ? '0%' : '100%',
               }}>
                 <IconedButton
@@ -587,7 +588,8 @@ export const Portfolio: React.FC = () => {
                 <label htmlFor="particle_size" style={{ textAlign: 'center' }}>S</label>
                 <input id="particle_size" type="range" min="0" max="100"
                   style={{
-                    maxHeight: isMobile ? '10vh' : '8vh',
+                    minHeight: 93,
+                    maxHeight: isMobile ? `12vh` : '8vh',
                     WebkitAppearance: `slider-vertical`,
                     MozOrient: "vertical"
                   }}
