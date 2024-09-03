@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  #__next {
+      @apply h-full 
+  }
+  html,
+  body {
+      @apply h-full;
+  }
+}
+
+@layer utilities {
+  .pause {
+    animation-play-state: paused;
+  }
+  .running {
+    animation-play-state: running;
+  }
+  .bf-visible {
+    backface-visibility: visible
+  }
+  .bf-invisible {
+    backface-visibility: hidden;
+  }
+  /* .overflow-clip {
+    overflow-clip-margin: 0px !important;
+    overflow: clip !important;
+  } */
+}
+
+@font-face {
+  font-family: Mandalore;
+  /* font-weight: 500; */
+  src: url(../public/assets/mandalore.ttf);
+}

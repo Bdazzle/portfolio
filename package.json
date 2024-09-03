@@ -2,56 +2,33 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/grecaptcha": "^3.0.3",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@types/styled-components": "^5.1.15",
-    "dotenv": "^10.0.0",
-    "emailjs-com": "^3.2.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-google-recaptcha": "^2.1.0",
-    "react-location": "^3.2.15",
-    "react-scripts": "4.0.3",
-    "styled-components": "^5.3.3",
-    "typescript": "^4.1.2",
-    "use-debounce": "^7.0.1",
-    "web-vitals": "^1.0.1"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@use-gesture/react": "^10.2.20",
+    "dotenv": "^16.0.2",
+    "emailjs-com": "^3.2.0",
+    "next": "13.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-google-recaptcha": "^3.1.0",
+    "schema-dts": "^1.1.2",
+    "use-debounce": "^8.0.4"
   },
   "devDependencies": {
-    "@types/react": "^17.0.37",
-    "@types/react-google-recaptcha": "^2.1.2",
-    "autoprefixer": "^9.8.8",
-    "babel-plugin-styled-components": "^1.13.3",
-    "postcss": "^7.0.39"
+    "@types/node": "18.7.14",
+    "@types/react": "18.0.18",
+    "@types/react-dom": "18.0.6",
+    "@types/react-google-recaptcha": "^2.1.9",
+    "autoprefixer": "^10.4.12",
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.2.5",
+    "postcss": "^8.4.16",
+    "tailwindcss": "^3.1.8",
+    "typescript": "4.8.2"
   }
 }
