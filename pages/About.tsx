@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { PortfolioContext } from '../context/PortfolioContext';
+import Image from "next/image";
 
 const About: React.FC = () => {
     const { currentTheme } = useContext(PortfolioContext)
@@ -17,14 +18,14 @@ const About: React.FC = () => {
                 <br />
                 Wu-Tang Forever...
             </div>
-            {/* <ul>
+            <ul className="hidden">
                 Future Directions?
                 <li>Neural Networks</li>
                 <li>Python</li>
                 <li>Java for Mobile development</li>
                 <li>Social Engineering</li>
                 <li>Next.js</li>
-            </ul> */}
+            </ul>
 
             <svg xmlns="http://www.w3.org/2000/svg"
                 width="300" height="300" viewBox="0 0 24 24"
@@ -105,7 +106,7 @@ const About: React.FC = () => {
                         </svg>
                     </li>
                     <li>Tailwind CSS
-                        <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white"></img>
+                        <Image className="m-w-[139px]" alt="Tailwind CSS logo" src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white"></Image>
                     </li>
                     <li >CSS/SASS
                         <div className="flex flex-row">

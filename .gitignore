@@ -4,7 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-/certs
 
 # testing
 /coverage
@@ -37,6 +36,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+#firebase
+/certs
+.firebase
 
 # typescript
 *.tsbuildinfo

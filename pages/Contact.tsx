@@ -134,10 +134,11 @@ const Contact: React.FC = () => {
                     }}
                     text={`Message Received! Thank you for your interest`} />
             }
-            <h1 className={`pt-[15vh] text-4xl font-bold font-Mandalore text-center tracking-[.2rem]`}
-            >ContAct</h1>
-            <div className={`text-center leading-normal font-Oxygen font-bold p-[10px] md:p-0`}
-            > Brian Robinson
+            <h1 className={`pt-[15vh] text-4xl font-bold font-Mandalore text-center tracking-[.2rem]`}>
+                ContAct
+            </h1>
+            <div className={`text-center leading-normal font-Oxygen font-bold p-[10px] md:p-0`}>
+                Brian Robinson
                 <br />
                 <a href="mailto:bprobins1013@gmail.com" target="_blank" rel="noreferrer" itemProp="email">bprobins1013@gmail.com</a>
                 <br />

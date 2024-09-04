@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { MainCard, MediaCardProps, ProjectCardProps } from "../portfoliotypes"
 
 export const MediaCard: React.FC<MediaCardProps> = ({ source, style, title, className }) => {
@@ -14,14 +15,14 @@ export const MediaCard: React.FC<MediaCardProps> = ({ source, style, title, clas
                 </video>
                 :
                 String(source)?.match(/\.png$/) ?
-                    <img itemProp="image"
+                    <Image itemProp="image"
                         alt={`${title} preview`}
                         src={source as string}
                         className={className ? `${className} md:pl-0 mb-[2.5%] md:mb-0 ` : ""}
                         style={style && {
                             ...style,
                         }}
-                    ></img>
+                    ></Image>
                     :
                     <iframe src={source as string}
                         title={`${title} preview`}
@@ -88,10 +89,10 @@ export const BigCard: React.FC<MainCard> = ({ source, handleVis, indepth, consta
                     {
                         Object.entries(techLogos as object).map((logo: [string, string], i: number) =>
                             <li key={`logo${i}li`} className="py-1">
-                                <img key={`logo${i}`} src={logo[1]}
+                                <Image key={`logo${i}`} src={logo[1]}
                                     alt={logo[0]}
                                     className="max-h-7 max-w-[110px] align-middle"
-                                ></img>
+                                ></Image>
                             </li>
                         )
                     }
@@ -141,10 +142,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ titlestyle, blurb, bor
                         Object.entries(techLogos as object).map((logo: [string, string], i: number) =>
                             <li key={`logo${i}li`}
                                 className="pb-[10px]">
-                                <img key={`logo${i}`} src={logo[1]}
+                                <Image key={`logo${i}`} src={logo[1]}
                                     alt={logo[0]}
                                     className="max-h-7 max-w-[110px] align-middle"
-                                ></img>
+                                ></Image>
                             </li>
                         )
                     }
